@@ -1,7 +1,7 @@
 {
-  "name": "vue-ssr-template",
+  "name": "{{ name }}",
   "version": "1.0.0",
-  "description": "",
+  "description": "{{ description }}",
   "main": "index.js",
   "scripts": {
     "clean": "rimraf ./dist",
@@ -11,7 +11,7 @@
     "dev": "npm run clean && cross-env NODE_ENV=development PORT=3001 node ./index.js",
     "start": "npm run build && cross-env NODE_ENV=production PORT=3000 node ./index.js"
   },
-  "author": "",
+  "author": "{{ author }}",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^9.0.2",
