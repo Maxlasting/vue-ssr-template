@@ -6,7 +6,6 @@ const { createBundleRenderer } = require('vue-server-renderer')
 const LRU = require('lru-cache')
 const favicon = require('koa-favicon')
 const koaBody = require('koa-body')
-const koaSend = require('koa-send')
 
 const app = new Koa()
 const router = new KoaRouter()
@@ -100,9 +99,14 @@ const render = async (ctx, next) => {
   isDev && console.log(`渲染用时：${Date.now() - s}ms`)
 }
 
-router.get('/dist/*', async (ctx) => {
-  await koaSend(ctx, ctx.path)
-})
+
+if (isDev) {
+  const koaSend = require('koa-send')
+
+  router.get('/dist/*', async (ctx) => {
+    await koaSend(ctx, ctx.path)
+  })
+}
 
 router.get('*', isDev ? (ctx) => readyPromise.then(() => render(ctx)) : render)
 
