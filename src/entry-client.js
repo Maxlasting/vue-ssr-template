@@ -24,7 +24,7 @@ if (window.__INITIAL_STATE__) {
 }
 
 router.onReady(() => {
-  return router.beforeResolve((to, from, next) => {
+  router.beforeResolve((to, from, next) => {
     // 获取当前匹配的所有组件
     const matched = router.getMatchedComponents(to)
     // 获取已经匹配的所有组件
