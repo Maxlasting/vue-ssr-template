@@ -9,7 +9,7 @@
     "build:server": "cross-env NODE_ENV=production webpack --color --config ./build/webpack.server.config.js",
     "build": "npm run clean && npm run build:client && npm run build:server",
     "dev": "npm run clean && cross-env NODE_ENV=development PORT=3001 node ./index.js",
-    "start": "npm run build && cross-env NODE_ENV=production PORT=3000 node ./index.js"
+    "start": "cross-env NODE_ENV=production PORT=3000 node ./index.js"
   },
   "author": "{{ author }}",
   "license": "ISC",

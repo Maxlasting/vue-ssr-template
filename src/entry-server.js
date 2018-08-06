@@ -14,6 +14,8 @@ export default ctx => new Promise((resolve, reject) => {
   // 如果一致，直接跳转到对应的 url
   router.push(url)
 
+  // 在这中间可以加入 seo 优化的操作，比如添加 vue-meta
+
   // 在路由可以跳转的时候，此时要加载对应的组件，找到其中的 asyncData 钩子函数，以便执行异步操作
   router.onReady(() => {
     const matchedComponents = router.getMatchedComponents()
