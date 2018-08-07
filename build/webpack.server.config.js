@@ -21,8 +21,8 @@ const config = merge(baseConfig, {
     libraryTarget: 'commonjs2'
   },
   externals: nodeExternals({
-    // 白名单，排除 css 文件，这里有待考量
-    whitelist: /\.css$/
+    // 白名单，排除 css 文件，后面的参考官方示例，这里有待考量
+    whitelist: [/\.css$/, /\?vue&type=style/]
   }),
   plugins: [
     new webpack.DefinePlugin({

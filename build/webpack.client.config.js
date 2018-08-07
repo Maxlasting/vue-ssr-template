@@ -19,25 +19,6 @@ const config = merge(baseConfig, {
   devtool: '#cheap-module-source-map',
   // 打包的目标对象为web端
   target: 'web',
-  // 代码分割模式，提取公共代码的配置
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        // 提取所有引用 node_modules 中的模块打包为一个单独的 vendor.js
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
-          priority: 10,
-          enforce: true
-        }
-      }
-    },
-    // 分离 webpack 配置文件为 manifest.js
-    runtimeChunk: {
-      name: 'manifest'
-    }
-  },
   plugins: [
     // 可以为每个懒加载的路由单独设置一个名字，而不是 id 0 1 2...
     new webpack.NamedChunksPlugin(),
@@ -53,6 +34,27 @@ const config = merge(baseConfig, {
 
 if (process.env.NODE_ENV === 'production') {
   config.devtool = 'false'
+
+  config.plugins.push(
+    // 用于 webpack 3 代码分割
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: function (module) {
+        // a module is extracted into the vendor chunk if...
+        return (
+          // it's inside node_modules
+          /node_modules/.test(module.context) &&
+          // and not a CSS file (due to extract-text-webpack-plugin limitation)
+          !/\.css$/.test(module.request)
+        )
+      }
+    }),
+    // extract webpack runtime & manifest to avoid vendor chunk hash changing
+    // on every build.
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest'
+    })
+  )
 }
 
 module.exports = config
