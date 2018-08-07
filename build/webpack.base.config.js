@@ -50,52 +50,37 @@ const config = {
   ]
 }
 
-const createCssLoader = (test, type, isDev, options = {}) => {
-  const use = [
-    {
-      loader: 'css-loader',
-      options: isDev ? {} :{ minimize: true }
-    },
-    {
-      loader: 'postcss-loader',
-      options: {
-        config: join(__dirname, '../postcss.config.js')
-      }
-    }
-  ]
-
-  if (type !== 'css') use.push({
-    loader: type + '-loader',
-    options
-  })
-
-  return { test, use }
-}
-
-const cssLoaderMap = new Map(
-  [
-    [/\.css$/, 'css'], [/\.less$/, 'less'], [/\.s(a|c)ss$/, 'sass'], [/\.styl(us)?$/, 'stylus']
-  ]
-)
-
+// 这里先不做通用配置，后面再想解决方案，需要其它预处理器，先手动添加
 if (process.env.NODE_ENV === 'development') {
-  [...cssLoaderMap].forEach(([test, type]) => config.module.rules.push(
-    createCssLoader(test, type, true)
-  ))
+  config.module.rules.push(
+    {
+      test: /\.css$/,
+      use: ['vue-style-loader', 'css-loader', 'postcss-loader']
+    }
+  )
 }
 
 if (process.env.NODE_ENV === 'production') {
-  [...cssLoaderMap].forEach(([_test, _type]) => {
-    const { test, use } = createCssLoader(_test, _type)
-
-    config.module.rules.push({
-      test,
+  config.module.rules.push(
+    {
+      test: /\.css$/,
       use: ExtractTextWebpackPlugin.extract({
-        use,
+        use: [
+          {
+            loader: 'css-loader',
+            options: { minimize: true }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              config: { path: join(__dirname, '../postcss.config.js') }
+            }
+          }
+        ],
         fallback: 'vue-style-loader'
       })
-    })
-  })
+    }
+  )
 
   config.plugins.push(
     new ExtractTextWebpackPlugin({
