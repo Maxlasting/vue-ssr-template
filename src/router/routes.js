@@ -1,6 +1,12 @@
+const home = () => import(/* webpackChunkName: "home" */ '../views/home/home.vue')
+
 export default [
   {
+    path: '/home',
+    component: home
+  },
+  {
     path: '/',
-    component: () => import(/* webpackChunkName: "index" */ '../views/index.vue')
+    redirect: '/home'
   }
 ]

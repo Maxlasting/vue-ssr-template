@@ -4,10 +4,7 @@
     "stage-1"
   ],
   "plugins": [
-    ["transform-decorators-legacy"],
-    ["syntax-dynamic-import"],
-    ["syntax-jsx"],
-    ["transform-vue-jsx"],
-    ["transform-runtime"]
+    "transform-vue-jsx",
+    "transform-runtime"
   ]
 }
