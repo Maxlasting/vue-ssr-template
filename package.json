@@ -1,5 +1,5 @@
 {
-  "name": "vue-ssr-template",
+  "name": "{{ name }}",
   "version": "2.0.0",
   "description": "{{ description }}",
   "main": "index.js",
