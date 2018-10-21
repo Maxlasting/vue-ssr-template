@@ -2,7 +2,6 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const { join } = require('path')
 const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
-const nodeExternals = require('webpack-node-externals')
 const baseConfig = require('./webpack.base.config.js')
 
 const config = merge(baseConfig, {
@@ -23,9 +22,7 @@ const config = merge(baseConfig, {
       }
     ]
   },
-  externals: nodeExternals({
-    whitelist: [/\.css$/]
-  }),
+  externals: ['vue', 'vue-router', 'vuex', 'vue-server-renderer'],
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
